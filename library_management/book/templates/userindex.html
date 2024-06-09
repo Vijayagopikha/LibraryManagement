@@ -1,0 +1,56 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management - Books</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+   
+</head>
+<body>
+    <h1>Library Books</h1>
+    
+    
+    <h2>Technical Books</h2>
+    <div class="card-container">
+        {% for book in technical_books %}
+        <div class="card">
+            <img src="http://127.0.0.1:8000/media/{{ book.image_url }}" alt="Book Image">
+            <div class="card-content">
+                <h2>{{ book.book_name }}</h2>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Department:</strong> {{ book.departname }}</p>
+                <p><strong>Edition:</strong> {{ book.edition }}</p>
+                <p><strong>Available:</strong> {{ book.book_available }}</p>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>General Books</h2>
+    <div class="card-container">
+        {% for book in general_books %}
+        <div class="card">
+            <img src="http://127.0.0.1:8000/media/{{ book.image_url }}" alt="Book Image">
+            <div class="card-content">
+                <h2>{{ book.book_name }}</h2>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Category:</strong> {{ book.category }}</p>
+                <p><strong>Available:</strong> {{ book.book_available }}</p>
+               
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    
+</body>
+
+
+</html>
+
+

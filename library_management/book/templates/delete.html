@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Delete{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Book - Library Management</title>
+    <link rel="stylesheet" href="{% static 'dlt.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Delete Book</h1>
+        <p>Are you sure you want to delete the book <strong>{{ book.book_name }}</strong> by {{ book.author }}?</p>
+        <form method="post" action="{% url 'delete' book.id book_type %}">
+            {% csrf_token %}
+            <button type="submit">Delete Book</button>
+            <a href="{% url 'home' %}" class="button">Cancel</a>
+        </form>
+    </div>
+</body>
+{% for message in messages %}
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+        showAlert("{{ message }}");
+    </script>
+{% endfor %}
+
+</html>
+{% endblock %}

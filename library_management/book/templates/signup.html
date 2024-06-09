@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Signup{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'sign.css' %}">
+</head>
+<body>
+    <h1>Sign Up</h1>
+   
+    <form method="post">
+        {% csrf_token %}
+       
+        <p>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </p>
+        <p>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </p>
+        <p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </p>
+        <p>
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+        </p>
+        <button type="submit">Sign Up</button>
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </form>
+</body>
+
+{% for message in messages %}
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+        showAlert("{{ message }}");
+    </script>
+{% endfor %}
+
+</html>
+{% endblock %}

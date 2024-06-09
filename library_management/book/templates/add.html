@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book - Library Management</title>
+    <link rel="stylesheet" href="{% static 'add.css' %}">
+    <script>
+        function toggleFields() {
+            var bookType = document.getElementById('book_type').value;
+            if (bookType === 'technical') {
+                document.getElementById('department_group').style.display = 'block';
+                document.getElementById('edition_group').style.display = 'block';
+                document.getElementById('category_group').style.display = 'none';
+            } else if (bookType === 'general') {
+                document.getElementById('department_group').style.display = 'none';
+                document.getElementById('edition_group').style.display = 'none';
+                document.getElementById('category_group').style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Add a New Book</h1>
+        <form method="post" enctype="multipart/form-data" action="{% url 'add' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="book_type">Book Type:</label>
+                <select id="book_type" name="book_type" onchange="toggleFields()" required>
+                    <option value="">Select Type</option>
+                    <option value="technical">Technical</option>
+                    <option value="general">General</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="book_name">Book Name:</label>
+                <input type="text" id="book_name" name="book_name" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+            </div>
+            <div class="form-group" id="department_group" style="display:none;">
+                <label for="department_name">Department:</label>
+                <input type="text" id="department_name" name="department_name">
+            </div>
+            <div class="form-group" id="edition_group" style="display:none;">
+                <label for="edition">Edition:</label>
+                <input type="text" id="edition" name="edition">
+            </div>
+            <div class="form-group" id="category_group" style="display:none;">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category">
+            </div>
+            <div class="form-group">
+                <label for="num_available">Number of Books Available:</label>
+                <input type="number" id="num_available" name="num_available" required>
+            </div>
+            <div class="form-group">
+                <label for="image_url">Image URL:</label>
+                <input type="text" id="image_url" name="image_url">
+            </div>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+</body>
+{% for message in messages %}
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+        showAlert("{{ message }}");
+    </script>
+{% endfor %}
+
+</html>
+{% endblock %}
+

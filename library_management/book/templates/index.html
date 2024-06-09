@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Index{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management - Books</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script>
+        function confirmUpdate() {
+            return confirm('Are you sure you want to update this book?');
+        }
+
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this book?');
+        }
+    </script>
+</head>
+<body>
+    <h1>Library Books</h1>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="{% url 'add' %}" class="btn btn-add">Add</a> <!-- Add button -->
+    </div>
+    <h2>Technical Books</h2>
+    <div class="card-container">
+        {% for book in technical_books %}
+        <div class="card">
+            <img src="http://127.0.0.1:8000/media/{{ book.image_url }}" alt="Book Image">
+            <div class="card-content">
+                <h2>{{ book.book_name }}</h2>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Department:</strong> {{ book.departname }}</p>
+                <p><strong>Edition:</strong> {{ book.edition }}</p>
+                <p><strong>Available:</strong> {{ book.book_available }}</p>
+                <a href="{% url 'update' book.id 'technical' %}" class="btn btn-update">Update</a>
+                <form action="{% url 'delete' book.id 'technical' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>General Books</h2>
+    <div class="card-container">
+        {% for book in general_books %}
+        <div class="card">
+            <img src="http://127.0.0.1:8000/media/{{ book.image_url }}" alt="Book Image">
+            <div class="card-content">
+                <h2>{{ book.book_name }}</h2>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Category:</strong> {{ book.category }}</p>
+                <p><strong>Available:</strong> {{ book.book_available }}</p>
+                <a href="{% url 'update' book.id 'general' %}" class="btn btn-update">Update</a>
+                <form action="{% url 'delete' book.id 'general' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    
+</body>
+{% for message in messages %}
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+        showAlert("{{ message }}");
+    </script>
+{% endfor %}
+
+</html>
+{% endblock %}
+
