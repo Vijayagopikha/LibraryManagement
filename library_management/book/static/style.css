@@ -14,6 +14,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    transition: all 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
 .card {
@@ -21,13 +22,19 @@ h1 {
     border-radius: 10px;
     overflow: hidden;
     width: 300px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+    box-shadow:0 0 5px rgb(26, 27, 26),
+    0 0 25px rgb(4, 4, 4);
+    transition: all 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);}
 
 .card img {
     width: 100%;
     height: auto;
+    transition: all 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    cursor: pointer;
+    filter: brightness(95%);
+    transition: all 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
+
 
 .card-content {
     padding: 15px;
@@ -44,18 +51,22 @@ h1 {
 }
 .btn-add {
     background-color: #0275d8;  /* Add a blue background color */
+    width:170px;
+    height:20px;
+    font-size:20px;
+
 }
 
 .btn-add:hover {
-    background-color: #025aa5;  /* Darken the blue on hover */
+    background-color: #06335a;  /* Darken the blue on hover */
 }
 
 .btn-update {
-    background-color: #5cb85c;
+    background-color: #236b23;
 }
 
 .btn-delete {
-    background-color: #d9534f;
+    background-color: #cb1b15;
     border: none;
     cursor: pointer;
 }
@@ -66,4 +77,41 @@ h1 {
 
 .btn-update:hover {
     background-color: #4cae4c;
+}
+
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Spread items evenly */
+    padding: 10px 20px;
+    background-color: #03145e;
+    color: white;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Logout button */
+.btn-logout {
+    order: 1; /* Position on the left */
+    background-color: #cb1b15;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    height:25px;
+    margin-top:18px;
+}
+
+/* Back button */
+.btn-back {
+    margin-right:90%;
+    background-color: #040505;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
 }

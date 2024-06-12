@@ -9,26 +9,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Book - Library Management</title>
     <link rel="stylesheet" href="{% static 'dlt.css' %}">
+    <script>
+        document.getElementById('deleteButton').addEventListener('click', function() {
+    var userConfirmed = confirm('Are you sure you want to delete this item?');
+    if (userConfirmed) {
+        // Proceed with deletion
+        console.log('Item deleted.');
+        return true;
+        // Here you can add your deletion logic
+    } else {
+        // Do nothing
+        console.log('Deletion cancelled.');
+        return false;
+    }
+});
+    </script>
 </head>
 <body>
     <div class="form-container">
         <h1>Delete Book</h1>
-        <p>Are you sure you want to delete the book <strong>{{ book.book_name }}</strong> by {{ book.author }}?</p>
-        <form method="post" action="{% url 'delete' book.id book_type %}">
+        <form method="post"  onsubmit="return confirmDelete(event)">
             {% csrf_token %}
-            <button type="submit">Delete Book</button>
+            <button type="submit" id="deleteButton">Delete Book</button>
             <a href="{% url 'home' %}" class="button">Cancel</a>
         </form>
     </div>
 </body>
-{% for message in messages %}
-    <script>
-        function showAlert(message) {
-            alert(message);
-        }
-        showAlert("{{ message }}");
-    </script>
-{% endfor %}
+
+   
 
 </html>
 {% endblock %}
