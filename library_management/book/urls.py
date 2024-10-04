@@ -24,6 +24,7 @@ urlpatterns = [
    
     path('', views.login, name='login'),
       # Root URL
+    #path('search/', views.search_books, name='search_books'), 
     path('signup/', views.signup, name='signup'),
     path('home/', views.home, name='home'),
     path('logout/', views.logout, name='logout'),

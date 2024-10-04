@@ -4,19 +4,51 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 
+
 def home(request):
     if 'user_id' not in request.session:
         return redirect('login')
 
-    technical_books = TechnicalBook.objects.all()  # Fetch all books from the database
-    general_books = GeneralBook.objects.all()
-    
+    search_query = request.GET.get('q', '')
+    filter_by = request.GET.get('filter_by', 'book_name')
+
+    technical_books = TechnicalBook.objects.all()  # Fetch all technical books
+    general_books = GeneralBook.objects.all()  # Fetch all general books
+
+    # Apply search filtering based on the filter criteria
+    if search_query:
+        if filter_by == 'book_name':
+            # Filter both technical and general books by book name
+            technical_books = technical_books.filter(book_name__icontains=search_query)
+            general_books = general_books.filter(book_name__icontains=search_query)
+        elif filter_by == 'author':
+            # Filter both technical and general books by author
+            technical_books = technical_books.filter(author__icontains=search_query)
+            general_books = general_books.filter(author__icontains=search_query)
+        elif filter_by == 'departname':
+            # Only filter technical books by department name, leave general books unchanged
+            technical_books = technical_books.filter(departname__icontains=search_query)
+            general_books = GeneralBook.objects.none()  # Return an empty queryset for general books when filtering by department
+
     user_id = request.session.get('user_id')
-    if user_id == -1:
-        return render(request, 'index.html', {'technical_books': technical_books, 'general_books': general_books, 'isadmin': True, 'show_nav': False})
-    else:
+
+    if user_id == -1:  # Admin
+        return render(request, 'index.html', {
+            'technical_books': technical_books, 
+            'general_books': general_books, 
+            'isadmin': True, 
+            'show_nav': False
+        })
+    else:  # Regular user
         user = Signup.objects.get(id=user_id)
-        return render(request, 'userindex.html', {'technical_books': technical_books, 'general_books': general_books, 'isadmin': user.isadmin, 'show_nav': False})
+        return render(request, 'userindex.html', {
+            'technical_books': technical_books, 
+            'general_books': general_books, 
+            'isadmin': user.isadmin, 
+            'show_nav': False
+        })
+
+
 
 @csrf_exempt
 def signup(request):

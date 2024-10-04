@@ -1,3 +1,4 @@
+/* Body styling */
 body {
     margin: 0;
     padding: 0;
@@ -9,11 +10,9 @@ body {
     background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 
+/* Form container styling */
 .form-container {
     width: 600px;
-    height: auto;
-    background: red;
-    overflow: hidden;
     background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/cover;
     border-radius: 10px;
     box-shadow: 5px 20px 50px #171515;
@@ -21,6 +20,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Heading */
 h1 {
     color: #fff;
     font-size: 2.3em;
@@ -29,6 +29,7 @@ h1 {
     font-weight: bold;
 }
 
+/* Form group styling */
 .form-group {
     margin-bottom: 15px;
     text-align: center;
@@ -42,6 +43,7 @@ h1 {
     font-weight: bold;
 }
 
+/* Input field styling */
 .form-group input {
     width: 60%;
     height: 20px;
@@ -56,6 +58,7 @@ h1 {
     font-size: 1em;
 }
 
+/* Button styling */
 button {
     width: 70%;
     height: 40px;
@@ -77,16 +80,43 @@ button {
 button:hover {
     background: #327e1f;
 }
-.navbar {
-    display: flex;
-    justify-content: space-between; /* Spread items evenly */
-    padding: 10px 20px;
-    background-color: #03145e;
-    color: white;
+
+/* Dropdown select field styling */
+/* Dropdown select field styling */
+.form-group select {
+    width: 60%; /* Same width as input fields */
+    height: 40px; /* Match height with input fields */
+    background: #e0dede; /* Same background as input fields */
+    justify-content: center;
+    display: block;
+    margin: 20px auto; /* Centering */
+    padding: 12px; /* Match padding with input fields */
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333; /* Text color */
+    cursor: pointer;
 }
 
-.navbar a {
-    color: white;
-    text-decoration: none;
+/* Hover and focus effects for the dropdown */
+.form-group select:hover,
+.form-group select:focus {
+    background-color: #d5d5d5; /* Lighter background on hover/focus */
 }
 
+/* Custom dropdown arrow */
+.form-group select {
+    appearance: none; /* Remove default dropdown arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23333333'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06 0L10 10.5l3.71-3.29a.75.75 0 111.06 1.06l-4 3.5a.75.75 0 01-1.06 0l-4-3.5a.75.75 0 010-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Position for dropdown arrow */
+    background-size: 12px; /* Size of the arrow */
+}
+
+/* Dropdown option styling */
+.form-group select option {
+    color: #333;
+    background-color: #fff; /* White background for options */
+    padding: 10px; /* Padding for options */
+}
