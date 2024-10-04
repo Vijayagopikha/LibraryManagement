@@ -28,6 +28,19 @@
     </body>
 </head>
 <body>
+    {% if show_nav %}
+    <div class="search-bar">
+        <form method="GET" action="{% url 'home' %}">
+            <select name="filter_by">
+                <option value="book_name" {% if request.GET.filter_by == 'book_name' %}selected{% endif %}>Book Name</option>
+                <option value="author" {% if request.GET.filter_by == 'author' %}selected{% endif %}>Author</option>
+                <option value="departname" {% if request.GET.filter_by == 'departname' %}selected{% endif %}>Department</option>
+            </select>
+            <input type="text" name="q" placeholder="Search books..." value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    {% endif %}
     
     
     <div style="text-align: center; margin-bottom: 20px;">
