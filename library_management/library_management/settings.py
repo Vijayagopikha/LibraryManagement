@@ -82,7 +82,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT':'3306',
         'USER':'root',
-        'PASSWORD':'EnakuTheriyum@123'
+        'PASSWORD':'EnakuTheriyum@123' #vanjula
     }
 }
 
@@ -135,3 +135,10 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(IMAGE_DIR, 'media')
 
+
+LOGIN_REDIRECT_URL = '/dashboard/'  # Redirect to the user dashboard after login
+LOGOUT_REDIRECT_URL = '/'           # Optional: Redirect to homepage after logout
+LOGIN_URL = '/login/'               # Ensure this is set if using @login_required
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
