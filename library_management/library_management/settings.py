@@ -82,7 +82,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT':'3306',
         'USER':'root',
-        'PASSWORD':'EnakuTheriyum@123' #vanjula
+        'PASSWORD':'mysql@04password' #gops
     }
 }
 
