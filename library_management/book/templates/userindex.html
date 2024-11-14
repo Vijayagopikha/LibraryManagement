@@ -13,7 +13,6 @@
             <h1><center>LIBRARY BOOKS</center></h1>
           
              <!-- Link to navigate to User Dashboard -->
-        <a href="{% url 'user_dashboard' %}" class="btn-dashboard">User</a>
             <a href="{% url 'login' %}" class="btn-logout">Logout</a>
                
         </nav>
@@ -47,6 +46,7 @@
                 <p><strong>Department:</strong> {{ book.departname }}</p>
                 <p><strong>Edition:</strong> {{ book.edition }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
+                <a href="{% url 'borrow_book' book.id 'technical' %}" class="btn-borrow">Borrow</a>
                 
             </div>
         </div>
@@ -63,6 +63,7 @@
                 <p><strong>Author:</strong> {{ book.author }}</p>
                 <p><strong>Category:</strong> {{ book.category }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
+                
                
             </div>
         </div>

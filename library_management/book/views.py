@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import TechnicalBook, GeneralBook, Signup
+
+
+from django.db.models import Q
+from .models import TechnicalBook, GeneralBook, Signup , BorrowedBook
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.contrib import messages
@@ -189,9 +193,49 @@ def delete(request, book_id, book_type):
     return render(request, 'delete.html', {'book': book, 'book_type': book_type, 'show_nav':True})
 
 
-@login_required
-def user_dashboard(request):
-    # Get books borrowed by the logged-in user
-    borrowed_books = Borrow.objects.filter(user=request.user)
-    context = {'borrowed_books': borrowed_books}
-    return render(request, 'user_dashboard.html', context)
+def borrow_book(request, book_id, book_type):
+    if 'user_id' not in request.session:
+        return redirect('login')
+
+    user_id = request.session['user_id']
+    user = Signup.objects.get(id=user_id)
+
+    if book_type == 'technical':
+        book = get_object_or_404(TechnicalBook, id=book_id)
+    else:
+        book = get_object_or_404(GeneralBook, id=book_id)
+
+    BorrowedBook.objects.create(
+        user=user,
+        book_name=book.book_name,
+        book_type=book_type
+    )
+
+    messages.success(request, 'Book borrowed successfully!')
+    return redirect('home')
+
+
+def borrowed_books(request):
+    if 'user_id' not in request.session:
+        return redirect('login')
+
+    user_id = request.session['user_id']
+    borrowed_books = BorrowedBook.objects.filter(user_id=user_id)
+    return render(request, 'borrowed_books.html', {'borrowed_books': borrowed_books})
+
+def return_book(request, book_id):
+    if 'user_id' not in request.session:
+        return redirect('login')
+
+    user_id = request.session['user_id']
+    borrowed_book = get_object_or_404(BorrowedBook, id=book_id, user_id=user_id)
+    
+    # Delete the borrowed book from the database
+    borrowed_book.delete()
+
+    # Optionally, show a success message
+    messages.success(request, 'Book returned successfully!')
+
+    # Redirect the user back to the borrowed books list
+    return redirect('borrowed_books')
+

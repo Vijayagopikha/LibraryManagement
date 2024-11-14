@@ -33,12 +33,13 @@ def __str__(self):
      return self.book_name
 
 
-# New model to track borrowed books
-class Borrow(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(TechnicalBook, on_delete=models.CASCADE)
-    date_borrowed = models.DateField(auto_now_add=True)
-    due_date = models.DateField()
+
+class BorrowedBook(models.Model):
+    user = models.ForeignKey(Signup, on_delete=models.CASCADE)
+    book_name = models.CharField(max_length=255)
+    book_type = models.CharField(max_length=50)  # 'technical' or 'general'
+    borrow_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} borrowed {self.book.book_name}"
+        return f"{self.book_name} borrowed by {self.user.username}"
+
