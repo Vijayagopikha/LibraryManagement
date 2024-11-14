@@ -33,8 +33,8 @@ urlpatterns = [
     
     path('update/<int:book_id>/<str:book_type>/',views.update,name = 'update'),
     path('delete/<int:book_id>/<str:book_type>/', views.delete, name='delete'),
-    #path('dashboard/', views.user_dashboard, name='user_dashboard'),
-
+    
+    path('dashboard/', views.user_dashboard, name='user_dashboard'),
     path('borrow/<int:book_id>/<str:book_type>/', views.borrow_book, name='borrow_book'),
     path('borrowed-books/', views.borrowed_books, name='borrowed_books'),
     path('return/<int:book_id>/', views.return_book, name='return_book'),

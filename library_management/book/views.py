@@ -193,12 +193,13 @@ def delete(request, book_id, book_type):
     return render(request, 'delete.html', {'book': book, 'book_type': book_type, 'show_nav':True})
 
 
-def borrow_book(request, book_id, book_type):
-    if 'user_id' not in request.session:
-        return redirect('login')
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
 
-    user_id = request.session['user_id']
-    user = Signup.objects.get(id=user_id)
+@login_required
+def borrow_book(request, book_id, book_type):
+    user = request.user
 
     if book_type == 'technical':
         book = get_object_or_404(TechnicalBook, id=book_id)
@@ -215,27 +216,29 @@ def borrow_book(request, book_id, book_type):
     return redirect('home')
 
 
+@login_required
 def borrowed_books(request):
-    if 'user_id' not in request.session:
-        return redirect('login')
-
-    user_id = request.session['user_id']
-    borrowed_books = BorrowedBook.objects.filter(user_id=user_id)
+    borrowed_books = BorrowedBook.objects.filter(user=request.user)
     return render(request, 'borrowed_books.html', {'borrowed_books': borrowed_books})
 
-def return_book(request, book_id):
-    if 'user_id' not in request.session:
-        return redirect('login')
 
-    user_id = request.session['user_id']
-    borrowed_book = get_object_or_404(BorrowedBook, id=book_id, user_id=user_id)
-    
+@login_required
+def return_book(request, book_id):
+    borrowed_book = get_object_or_404(BorrowedBook, id=book_id, user=request.user)
+
     # Delete the borrowed book from the database
     borrowed_book.delete()
 
-    # Optionally, show a success message
+    # Show a success message
     messages.success(request, 'Book returned successfully!')
 
     # Redirect the user back to the borrowed books list
     return redirect('borrowed_books')
+
+@login_required
+def user_dashboard(request):
+    if request.user.is_authenticated:
+        borrowed_books = BorrowedBook.objects.filter(user=request.user)
+        return render(request, 'user_dashboard.html', {'borrowed_books': borrowed_books})
+    return redirect('login')
 
