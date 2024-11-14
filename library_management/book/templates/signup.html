@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="{% static 'sign.css' %}">
 </head>
 <body>
+    <div class="signup-container">
+        <!-- Left Side Image -->
+        <div class="signup-image">
+            <img src="{% static 'images/signup-image.png' %}" alt="Sign Up Image">
+        </div>
+        <!-- Right Side Sign-Up Form -->
+    <div class="signup-form">
+
     <h1>Sign Up</h1>
    
     <form method="post">
@@ -36,6 +44,7 @@
         <button type="submit">Sign Up</button>
         <a href="{% url 'login' %}">Already have an account? Login here</a>
     </form>
+    </div>
 </body>
 
 {% for message in messages %}

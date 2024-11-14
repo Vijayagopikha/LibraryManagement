@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User
 from django.db import models
 
 class Signup(models.Model):
@@ -33,3 +33,12 @@ def __str__(self):
      return self.book_name
 
 
+# New model to track borrowed books
+class Borrow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(TechnicalBook, on_delete=models.CASCADE)
+    date_borrowed = models.DateField(auto_now_add=True)
+    due_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.user.username} borrowed {self.book.book_name}"

@@ -22,7 +22,8 @@ from . import views
 
 urlpatterns = [
    
-    path('', views.login, name='login'),
+   path('', views.homepage, name='homepage'),  # Set this as the home page
+    path('login/', views.login, name='login'),
       # Root URL
     #path('search/', views.search_books, name='search_books'), 
     path('signup/', views.signup, name='signup'),
@@ -32,6 +33,12 @@ urlpatterns = [
     
     path('update/<int:book_id>/<str:book_type>/',views.update,name = 'update'),
     path('delete/<int:book_id>/<str:book_type>/', views.delete, name='delete'),
+    path('dashboard/', views.user_dashboard, name='user_dashboard'),
 ]
+
+
+#for imges
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

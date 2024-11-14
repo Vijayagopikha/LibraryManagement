@@ -21,14 +21,23 @@
     </script>
     <body>
         <nav class="navbar">
-            <h1><center>LIBRARY BOOKS</center></h1>
-            <a href="{% url 'login' %}" class="btn-logout">Log Out</a>
+            <div class="navbar-content">
+                <!-- Logo -->
+                <a href="{% url 'user_dashboard' %}">
+                <!--   <img src="{% static 'media/logo.png' %}" alt="Library Logo" class="logo">--> 
+                   <h1>Admin</h1>
+                </a>
+                <!-- Title -->
+                <h1>LIBRARY BOOKS</h1>
+                <!-- Logout Button -->
+                <a href="{% url 'login' %}" class="btn-logout">Log Out</a>
+            </div>
               
         </nav>
     </body>
 </head>
 <body>
-  
+
     <div class="search-bar">
         <form method="GET" action="{% url 'home' %}">
             <select name="filter_by">

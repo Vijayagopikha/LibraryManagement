@@ -3,6 +3,10 @@ from .models import TechnicalBook, GeneralBook, Signup
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+def homepage(request):
+    return render(request, 'homepage.html', {'show_nav': False})
 
 
 def home(request):
@@ -183,3 +187,11 @@ def delete(request, book_id, book_type):
         return redirect('home')  # Redirect to the books list view
 
     return render(request, 'delete.html', {'book': book, 'book_type': book_type, 'show_nav':True})
+
+
+@login_required
+def user_dashboard(request):
+    # Get books borrowed by the logged-in user
+    borrowed_books = Borrow.objects.filter(user=request.user)
+    context = {'borrowed_books': borrowed_books}
+    return render(request, 'user_dashboard.html', context)
