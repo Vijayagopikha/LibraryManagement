@@ -37,11 +37,6 @@ def __str__(self):
      return self.book_name
 
 
-
-from django.db import models
-from datetime import timedelta
-from django.utils import timezone
-
 class BorrowedBook(models.Model):
     user = models.ForeignKey(Signup, on_delete=models.CASCADE)
     book_name = models.CharField(max_length=255)
