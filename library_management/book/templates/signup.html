@@ -10,51 +10,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="{% static 'sign.css' %}">
+    <style>
+        /* Basic page styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 700px;
+            height: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        /* Left side (Signup form) */
+        .signup-form {
+            flex: 1;
+            padding: 40px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup-form h2 {
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        .signup-form input[type="text"],
+        .signup-form input[type="email"],
+        .signup-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .signup-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .signup-form a {
+            margin-top: 15px;
+            color: #4a90e2;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        /* Right side (Welcome message with image) */
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(45deg, #4a90e2, #357ABD), url("{% static 'images/signup-background.jpg' %}") center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 40px;
+        }
+        .welcome-section h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .welcome-section p {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div class="signup-container">
-        <!-- Left Side Image -->
-        <div class="signup-image">
-            <img src="{% static 'images/signup-image.png' %}" alt="Sign Up Image">
+    <div class="container">
+        <!-- Signup Form Section -->
+        <div class="signup-form">
+            <h2>Sign Up</h2>
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+                <a href="{% url 'login' %}">Already have an account? Login here</a>
+            </form>
         </div>
-        <!-- Right Side Sign-Up Form -->
-    <div class="signup-form">
 
-    <h1>Sign Up</h1>
-   
-    <form method="post">
-        {% csrf_token %}
-       
-        <p>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        </p>
-        <p>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </p>
-        <p>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </p>
-        <p>
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" required>
-        </p>
-        <button type="submit">Sign Up</button>
-        <a href="{% url 'login' %}">Already have an account? Login here</a>
-    </form>
+        <!-- Welcome Section with Background Image -->
+        <div class="welcome-section">
+            <h2>Welcome!</h2>
+            <p>Join us to access exclusive features and stay connected</p>
+        </div>
     </div>
+
+    {% for message in messages %}
+        <script>
+            function showAlert(message) {
+                alert(message);
+            }
+            showAlert("{{ message }}");
+        </script>
+    {% endfor %}
 </body>
-
-{% for message in messages %}
-    <script>
-        function showAlert(message) {
-            alert(message);
-        }
-        showAlert("{{ message }}");
-    </script>
-{% endfor %}
-
 </html>
 {% endblock %}
+

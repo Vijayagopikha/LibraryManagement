@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borrowed Books</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Borrowed Books{% endblock %}
+{% block content %}
     <h2>Borrowed Books</h2>
     
     <ul>
@@ -20,5 +17,4 @@
     </ul>
 
     <a href="{% url 'home' %}">Back to Library</a>
-</body>
-</html>
+{% endblock %}

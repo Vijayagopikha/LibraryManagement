@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from django.db.models import Q
 from .models import TechnicalBook, GeneralBook, Signup , BorrowedBook
-
+from django.http import JsonResponse
+import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.contrib import messages
@@ -126,7 +127,8 @@ def add(request):
         edition = request.POST.get('edition', '')
         num_available = int(request.POST['num_available'])
         image_url = request.POST.get('image_url', '')
-
+        online_url = request.POST.get('online_book_url', '')  # New field for online book URL
+        print(online_url)
         if book_type == 'technical':
             department_name  = request.POST.get('departname_name','')
             TechnicalBook.objects.create(
@@ -135,7 +137,8 @@ def add(request):
                 author=author,
                 edition=edition,
                 book_available = num_available,
-                image_url=image_url
+                image_url=image_url,
+                online_book_url=online_url  # Store the online URL in the database
             )
         elif book_type == 'general':
             category  = request.POST.get('category','')
@@ -144,7 +147,8 @@ def add(request):
                 book_name=book_name,
                 author=author,
                 book_available = num_available,
-                image_url=image_url
+                image_url=image_url,
+                online_book_url=online_url  # Store the online URL in the database
             )
         messages.success(request, 'Book added successfully!')
         return redirect('home')  # Redirect to the books list view
@@ -169,6 +173,7 @@ def update(request, book_id, book_type):
             book.category = request.POST.get('category', '')
         book.book_available = int(request.POST['num_available'])
         book.image_url = request.POST.get('image_url', '')
+        book.online_url = request.POST.get('online_url', '')  # New field for online book URL
         book.save()
         messages.success(request, 'Book updated successfully!')
         return redirect('home')  # Redirect to the books list view
@@ -193,36 +198,39 @@ def delete(request, book_id, book_type):
     return render(request, 'delete.html', {'book': book, 'book_type': book_type, 'show_nav':True})
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
-from django.contrib import messages
+
+
 
 @login_required
 def borrow_book(request, book_id, book_type):
-    user = request.user
+    # Get the book object
+    book = Book.objects.get(id=book_id)
 
-    if book_type == 'technical':
-        book = get_object_or_404(TechnicalBook, id=book_id)
+    # Check if the book is available
+    if book.book_available:
+        # Create a borrowed book record
+        borrowed_book = BorrowedBook(
+            user=request.user,  # This assumes the 'user' field in BorrowedBook is a ForeignKey to the User model
+            book_name=book.book_name,
+            book_type=book_type,
+            borrow_date=timezone.now()  # Save the current date and time as the borrow date
+        )
+        borrowed_book.save()
+
+        # Optionally, update the book's availability status
+        book.book_available = False
+        book.save()
+
+        # Redirect to the borrowed books page or any other page after borrowing the book
+        messages.success(request, f'You have successfully borrowed "{book.book_name}".')
+        return redirect('borrowed_books')  # Or whatever page you'd like to redirect the user to
     else:
-        book = get_object_or_404(GeneralBook, id=book_id)
-
-    BorrowedBook.objects.create(
-        user=user,
-        book_name=book.book_name,
-        book_type=book_type
-    )
-
-    messages.success(request, 'Book borrowed successfully!')
-    return redirect('home')
+        # If the book is not available, redirect to a page showing the book is unavailable
+        messages.error(request, f'Sorry, "{book.book_name}" is currently not available.')
+        return redirect('book_not_available')  # A page informing the user the book is not available
 
 
-@login_required
-def borrowed_books(request):
-    borrowed_books = BorrowedBook.objects.filter(user=request.user)
-    return render(request, 'borrowed_books.html', {'borrowed_books': borrowed_books})
-
-
-@login_required
+@csrf_exempt
 def return_book(request, book_id):
     borrowed_book = get_object_or_404(BorrowedBook, id=book_id, user=request.user)
 
@@ -235,7 +243,7 @@ def return_book(request, book_id):
     # Redirect the user back to the borrowed books list
     return redirect('borrowed_books')
 
-@login_required
+@csrf_exempt
 def user_dashboard(request):
     if request.user.is_authenticated:
         borrowed_books = BorrowedBook.objects.filter(user=request.user)

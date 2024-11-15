@@ -1,6 +1,8 @@
-
+{% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Index{% endblock %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,18 +10,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Management - Books</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <body>
-        <nav class="navbar">
-            <h1><center>LIBRARY BOOKS</center></h1>
-          
-             <!-- Link to navigate to User Dashboard -->
-             <a href="{% url 'user_dashboard' %}">My Dashboard</a>
-            <a href="{% url 'login' %}" class="btn-logout">Logout</a>
-               
-        </nav>
-    </body>
 </head>
 <body>
+    <nav class="navbar">
+        <h1><center>LIBRARY BOOKS</center></h1>
+        <a href="{% url 'user_dashboard' %}">My Dashboard</a>
+        <a href="{% url 'login' %}" class="btn-logout">Logout</a>
+    </nav>
 
     <div class="search-bar">
         <form method="GET" action="{% url 'home' %}">
@@ -29,12 +26,9 @@
                 <option value="departname" {% if request.GET.filter_by == 'departname' %}selected{% endif %}>Department</option>
             </select>
             <input type="text" name="q" placeholder="Search books..." value="{{ request.GET.q }}">
-
             <button type="submit">Search</button>
         </form>
     </div>
-    
-    
     
     <h2>Technical Books</h2>
     <div class="card-container">
@@ -47,7 +41,17 @@
                 <p><strong>Department:</strong> {{ book.departname }}</p>
                 <p><strong>Edition:</strong> {{ book.edition }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
-                <a href="{% url 'borrow_book' book.id 'technical' %}" class="btn-borrow">Borrow</a>
+                
+                {% if user.is_authenticated %} 
+                    <p>You are logged in as {{ user.username }}.</p>
+                    <a href="{% url 'borrow_book' book.id 'technical' %}" class="btn-borrow">Borrow</a>
+                {% else %}
+                    <p>You need to be logged in to borrow books.</p>
+                {% endif %}
+                
+                {% if book.book_available <= 5 %}
+                    <a href="{{ book.online_book_url }}" target="_blank" class="btn-pdf">Read Online</a>
+                {% endif %}
                 
             </div>
         </div>
@@ -65,16 +69,14 @@
                 <p><strong>Category:</strong> {{ book.category }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
                 
-               
+                {% if book.book_available <= 5 %}
+                    <a href="{{ book.online_book_url }}" target="_blank" class="btn-pdf">Read Online</a>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
     </div>
 
-    
 </body>
-
-
 </html>
-
-
+{% endblock %}

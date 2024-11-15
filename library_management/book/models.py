@@ -22,6 +22,7 @@ class TechnicalBook(models.Model):
     edition = models.CharField(max_length = 100)
     book_available = models.IntegerField()
     image_url = models.CharField(max_length=100)
+    online_book_url = models.URLField(max_length=200, blank=True, null=True)  # Default is NULL if not set
 
 def __str__(self):
         return self.book_name
@@ -32,6 +33,8 @@ class GeneralBook(models.Model):
     author = models.CharField(max_length = 200)
     book_available = models.IntegerField()
     image_url = models.CharField(max_length=100)
+    online_book_url = models.URLField(max_length=200, blank=True, null=True)  # Default is NULL if not set
+
 
 def __str__(self):
      return self.book_name

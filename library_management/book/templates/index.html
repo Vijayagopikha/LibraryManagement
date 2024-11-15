@@ -29,6 +29,7 @@
                 </a>
                 <!-- Title -->
                 <h1>LIBRARY BOOKS</h1>
+                
                 <!-- Logout Button -->
                 <a href="{% url 'login' %}" class="btn-logout">Log Out</a>
             </div>
@@ -65,6 +66,9 @@
                 <p><strong>Department:</strong> {{ book.departname }}</p>
                 <p><strong>Edition:</strong> {{ book.edition }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
+                
+                <p><strong>Online Book URL:</strong> <a href="{{ book.online_book_url }}" target="_blank">Read Online</a></p>
+           
                 <a href="{% url 'update' book.id 'technical' %}" class="btn btn-update">Update</a>
                 <form action="{% url 'delete' book.id 'technical' %}" onsubmit="return confirmDelete()" method="post" style="display:inline;">
                     {% csrf_token %}
@@ -85,6 +89,9 @@
                 <p><strong>Author:</strong> {{ book.author }}</p>
                 <p><strong>Category:</strong> {{ book.category }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
+             
+                <p><strong>Online Book URL:</strong> <a href="{{ book.online_url }}" target="_blank">Read Online</a></p>
+           
                 <a href="{% url 'update' book.id 'general' %}" class="btn btn-update">Update</a>
                 <form action="{% url 'delete' book.id 'general' %}" method="post" onsubmit="return confirmDelete()" style="display:inline;">
                     {% csrf_token %}
