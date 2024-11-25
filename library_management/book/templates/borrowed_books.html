@@ -8,9 +8,12 @@
     <ul>
         {% for book in borrowed_books %}
             <li>
-                {{ book.book_name }} - Borrowed on {{ book.borrow_date|date:"F j, Y, g:i a" }}
+                <strong>Book Name:</strong> {{ book.book_name }}<br>
+                <strong>Borrowed On:</strong> {{ book.borrow_date|date:"F j, Y, g:i a" }}<br>
+                <strong>Due Date:</strong> {{ book.due_date|date:"F j, Y, g:i a" }}<br>
                 <a href="{% url 'return_book' book.id %}" class="btn-return">Return</a>
             </li>
+            <hr>
         {% empty %}
             <li>No books borrowed.</li>
         {% endfor %}

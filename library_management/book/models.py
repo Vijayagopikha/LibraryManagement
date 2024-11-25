@@ -45,12 +45,16 @@ class BorrowedBook(models.Model):
     book_name = models.CharField(max_length=255)
     book_type = models.CharField(max_length=50)  # 'technical' or 'general'
     borrow_date = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateTimeField(null=True)  # Make it nullable initially
+    due_date = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.due_date:
-            # Set the due_date to 9 days after borrow_date
+        # Save the instance to populate `borrow_date` if it is a new object
+        if not self.pk:  # Object is new, so borrow_date is not yet set
+            super().save(*args, **kwargs)
+            # Now calculate due_date
             self.due_date = self.borrow_date + timedelta(days=9)
+            kwargs['force_update'] = True  # Avoid a new insert, force update
+        # Save the instance again after setting the due_date
         super().save(*args, **kwargs)
 
     def __str__(self):

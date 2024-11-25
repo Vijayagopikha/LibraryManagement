@@ -1,15 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-
 from django.db.models import Q
 from .models import TechnicalBook, GeneralBook, Signup , BorrowedBook
-from django.http import JsonResponse
-import json
+from datetime import timedelta
+from datetime import datetime, timedelta
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
 def homepage(request):
     return render(request, 'homepage.html', {'show_nav': False})
 
@@ -201,52 +200,60 @@ def delete(request, book_id, book_type):
 
 
 
-@login_required
 def borrow_book(request, book_id, book_type):
-    # Get the book object
-    book = Book.objects.get(id=book_id)
+    if 'user_id' not in request.session:
+        return redirect('login')
 
-    # Check if the book is available
-    if book.book_available:
-        # Create a borrowed book record
-        borrowed_book = BorrowedBook(
-            user=request.user,  # This assumes the 'user' field in BorrowedBook is a ForeignKey to the User model
-            book_name=book.book_name,
-            book_type=book_type,
-            borrow_date=timezone.now()  # Save the current date and time as the borrow date
-        )
-        borrowed_book.save()
+    user_id = request.session['user_id']
+    user = Signup.objects.get(id=user_id)
 
-        # Optionally, update the book's availability status
-        book.book_available = False
-        book.save()
-
-        # Redirect to the borrowed books page or any other page after borrowing the book
-        messages.success(request, f'You have successfully borrowed "{book.book_name}".')
-        return redirect('borrowed_books')  # Or whatever page you'd like to redirect the user to
+    if book_type == 'technical':
+        book = get_object_or_404(TechnicalBook, id=book_id)
     else:
-        # If the book is not available, redirect to a page showing the book is unavailable
-        messages.error(request, f'Sorry, "{book.book_name}" is currently not available.')
-        return redirect('book_not_available')  # A page informing the user the book is not available
+        book = get_object_or_404(GeneralBook, id=book_id)
+    
+    due_date =  datetime.now()+ timedelta(days=9)
+    borrow_date=datetime.now()
+    borrowed_book = BorrowedBook(
+        user=user,
+        book_name=book.book_name,
+        book_type=book_type,
+        borrow_date=borrow_date,
+        due_date=due_date
+    )
+    borrowed_book.save()
+    return redirect('/home')
 
 
-@csrf_exempt
+def borrowed_books(request):
+    if request.method=="GET":
+        if 'user_id' not in request.session:
+            return redirect('login')
+
+        user_id = request.session['user_id']
+        borrowed_books = BorrowedBook.objects.filter(user_id=user_id)
+
+        # Add due dates dynamically
+        for book in borrowed_books:
+            book.due_date = book.borrow_date + timedelta(days=9)
+
+        return render(request, 'borrowed_books.html', {'borrowed_books': borrowed_books})
+
+
 def return_book(request, book_id):
-    borrowed_book = get_object_or_404(BorrowedBook, id=book_id, user=request.user)
+    if 'user_id' not in request.session:
+        return redirect('login')
 
+    user_id = request.session['user_id']
+    borrowed_book = get_object_or_404(BorrowedBook, id=book_id, user_id=user_id)
+    
     # Delete the borrowed book from the database
     borrowed_book.delete()
 
-    # Show a success message
+    # Optionally, show a success message
     messages.success(request, 'Book returned successfully!')
 
     # Redirect the user back to the borrowed books list
     return redirect('borrowed_books')
 
-@csrf_exempt
-def user_dashboard(request):
-    if request.user.is_authenticated:
-        borrowed_books = BorrowedBook.objects.filter(user=request.user)
-        return render(request, 'user_dashboard.html', {'borrowed_books': borrowed_books})
-    return redirect('login')
 

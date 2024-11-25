@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar">
         <h1><center>LIBRARY BOOKS</center></h1>
-        <a href="{% url 'user_dashboard' %}">My Dashboard</a>
+        <a href="http://127.0.0.1:8000/borrowed-books/" class="btn-logout">Borrowing</a>
         <a href="{% url 'login' %}" class="btn-logout">Logout</a>
     </nav>
 
@@ -42,12 +42,8 @@
                 <p><strong>Edition:</strong> {{ book.edition }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
                 
-                {% if user.is_authenticated %} 
-                    <p>You are logged in as {{ user.username }}.</p>
-                    <a href="{% url 'borrow_book' book.id 'technical' %}" class="btn-borrow">Borrow</a>
-                {% else %}
-                    <p>You need to be logged in to borrow books.</p>
-                {% endif %}
+                <a href="{% url 'borrow_book' book.id 'technical' %}" class="btn-borrow">Borrow</a>
+               
                 
                 {% if book.book_available <= 5 %}
                     <a href="{{ book.online_book_url }}" target="_blank" class="btn-pdf">Read Online</a>
@@ -68,7 +64,7 @@
                 <p><strong>Author:</strong> {{ book.author }}</p>
                 <p><strong>Category:</strong> {{ book.category }}</p>
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
-                
+                 
                 {% if book.book_available <= 5 %}
                     <a href="{{ book.online_book_url }}" target="_blank" class="btn-pdf">Read Online</a>
                 {% endif %}
