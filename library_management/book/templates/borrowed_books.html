@@ -2,22 +2,118 @@
 {% load static %}
 
 {% block title %}Borrowed Books{% endblock %}
-{% block content %}
-    <h2>Borrowed Books</h2>
-    
-    <ul>
-        {% for book in borrowed_books %}
-            <li>
-                <strong>Book Name:</strong> {{ book.book_name }}<br>
-                <strong>Borrowed On:</strong> {{ book.borrow_date|date:"F j, Y, g:i a" }}<br>
-                <strong>Due Date:</strong> {{ book.due_date|date:"F j, Y, g:i a" }}<br>
-                <a href="{% url 'return_book' book.id %}" class="btn-return">Return</a>
-            </li>
-            <hr>
-        {% empty %}
-            <li>No books borrowed.</li>
-        {% endfor %}
-    </ul>
 
-    <a href="{% url 'home' %}">Back to Library</a>
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #0056b3;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+
+    li {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    li strong {
+        font-weight: bold;
+    }
+
+    li a {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    li a:hover {
+        background-color: #218838;
+    }
+
+    .btn-return {
+        color: #fff;
+        background-color: #dc3545;
+        padding: 6px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .btn-return:hover {
+        background-color: #c82333;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #ddd;
+        margin: 10px 0;
+    }
+
+    /* Center and Style the Back to Library Button */
+    .btn-back {
+        display: block;
+        width: fit-content;
+        margin: 30px auto; /* Centers the button horizontally */
+        text-align: center;
+        color: #fff;
+        background-color: #007bff; /* Blue color */
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-back:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .btn-back:active {
+        background-color: #004080; /* Even darker blue when active/clicked */
+    }
+</style>
+
+<h2>Borrowed Books</h2>
+
+<ul>
+    {% for book in ed_books %}
+        <li>
+            <strong>Book Name:</strong> {{ book.book_name }}<br>
+            <strong>Borrowed On:</strong> {{ book.borrow_date|date:"F j, Y, g:i a" }}<br>
+            <strong>Due Date:</strong> {{ book.due_date|date:"F j, Y, g:i a" }}<br>
+            <a href="{% url 'return_book' book.id %}" class="btn-return">Return</a>
+        </li>
+    {% empty %}
+        <li>No books borrowed.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}" class="btn-back">Back to Library</a>
 {% endblock %}
