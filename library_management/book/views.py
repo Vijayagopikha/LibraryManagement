@@ -256,4 +256,13 @@ def return_book(request, book_id):
     # Redirect the user back to the borrowed books list
     return redirect('borrowed_books')
 
-
+#for admin
+def borrowed_books_list(request):
+    """
+    Display all borrowed books along with their associated user's username.
+    """
+    borrowed_books = BorrowedBook.objects.select_related('user').all()  # Use select_related for optimization
+    context = {
+        'borrowed_books': borrowed_books
+    }
+    return render(request, 'borrowed_books_list.html', context)

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrowed Books List</title>
+</head>
+<body>
+    <h1>Borrowed Books</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Book Name</th>
+                <th>Book Type</th>
+                <th>Borrow Date</th>
+                <th>Due Date</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in borrowed_books %}
+                <tr>
+                    <td>{{ book.user.username }}</td>
+                    <td>{{ book.book_name }}</td>
+                    <td>{{ book.book_type }}</td>
+                    <td>{{ book.borrow_date }}</td>
+                    <td>{{ book.due_date }}</td>
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

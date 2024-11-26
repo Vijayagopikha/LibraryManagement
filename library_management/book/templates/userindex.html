@@ -10,6 +10,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Management - Books</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        /* Styling for Borrow Button */
+        .btn-borrow {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 14px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-borrow:hover {
+            background-color: #45a049; /* Darker green on hover */
+            cursor: pointer;
+        }
+
+        .btn-borrow:active {
+            background-color: #3e8e41; /* Even darker when active/clicked */
+        }
+
+        /* Styling for Read Online Button */
+        .btn-pdf {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 14px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-pdf:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            cursor: pointer;
+        }
+
+        .btn-pdf:active {
+            background-color: #004080; /* Even darker when active/clicked */
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -43,12 +90,10 @@
                 <p><strong>Available:</strong> {{ book.book_available }}</p>
                 
                 <a href="{% url 'borrow_book' book.id 'technical' %}" class="btn-borrow">Borrow</a>
-               
                 
                 {% if book.book_available <= 5 %}
                     <a href="{{ book.online_book_url }}" target="_blank" class="btn-pdf">Read Online</a>
                 {% endif %}
-                
             </div>
         </div>
         {% endfor %}

@@ -142,3 +142,12 @@ LOGIN_URL = '/login/'               # Ensure this is set if using @login_require
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'vijayagopikhas.22cse@kongu.edu'  # Admin email
+EMAIL_HOST_PASSWORD = 'yaae xqjw qfba eege'  # Use a secure way to store this
