@@ -1,85 +1,144 @@
-<!-- templates/homepage.html -->
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Library Management{% endblock %}
+
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to Library Management System of Kongu Engineering College</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
-        /* Full-screen background image styling */
-        * {
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #03145e;
+            padding: 10px 50px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-        body, html {
-            font-family: Arial, sans-serif;
-            height: 100%;
+
+        .navbar ul li {
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .currency {
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-image: url('{% static "library-background.png" %}');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
         }
-        .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('http://127.0.0.1:8000/media/wall.jpeg') no-repeat center center/cover;
-           
-            z-index: -1;
-            filter: brightness(0.7); /* Darken background for text readability */
-        }
-        .container {
-            z-index: 1;
+
+        .content {
             text-align: center;
-            color: #0a0a0a;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 10px;
         }
+
+        .book-cards img {
+            margin: 0 10px;
+            height: 200px;
+        }
+
         h1 {
             font-size: 36px;
-            margin-bottom: 20px;
+            margin-top: 20px;
+            text-transform: uppercase;
         }
+
+        p {
+            font-size: 16px;
+            margin: 20px 0;
+        }
+
         .buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
+            margin-top: 20px;
         }
-        a {
-            text-decoration: none;
+
+        .buy-btn, .read-btn {
+            background-color: #03145e;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 14px;
         }
-        button {
-            padding: 12px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #1e90ff;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        button:hover {
-            background-color: #005a9e;
-            transform: scale(1.05);
+
+        .read-btn {
+            background-color: transparent;
+            border: 2px solid white;
         }
     </style>
 </head>
 <body>
-    <div class="background"></div>
-    <div class="container">
-        <h1>Welcome to Library Management System</h1>
-        
-        <!-- Login and Signup Buttons -->
-        <div class="buttons">
-            <a href="{% url 'login' %}"><button>Login</button></a>
-            <a href="{% url 'signup' %}"><button>Signup</button></a>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="navbar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Technical Books</a></li>
+                <li><a href="#">General Books</a></li>
+            </ul>
+            <div class="currency">
+                <span>Logout</span>
+            </div>
         </div>
-    </div>
+    </header>
+
+    <!-- Main Section -->
+    <section class="hero-section">
+        <div class="content">
+            <div class="book-cards">
+                <img src="{% static 'book1.png' %}" alt="Book 1">
+                <img src="{% static 'book2.png' %}" alt="Book 2">
+                <img src="{% static 'book3.png' %}" alt="Book 3">
+                <img src="{% static 'book4.png' %}" alt="Book 4">
+            </div>
+            <h1>SEARCH YOUR FAVOURITE BOOK</h1>
+            <p>Consectetur adipiscing elit eiusmod lotanae pokalate sinote tempor incididunt ut labore popupve asoter.</p>
+            <div class="buttons">
+                <a href="{% url 'login' %}" class="buy-btn">Log in</a>
+                <a href="{% url 'signup' %}" class="read-btn">Sign up</a>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
 {% endblock %}
