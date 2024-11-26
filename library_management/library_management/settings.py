@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -82,7 +82,9 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT':'3306',
         'USER':'root',
+
         'PASSWORD':'mysql@04password' #gops
+
     }
 }
 
@@ -151,3 +153,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'vijayagopikhas.22cse@kongu.edu'  # Admin email
 EMAIL_HOST_PASSWORD = 'yaae xqjw qfba eege'  # Use a secure way to store this
+DEFAULT_FROM_EMAIL = 'vijayagopikhas.22cse@kongu.edu'  # Email used as the sender

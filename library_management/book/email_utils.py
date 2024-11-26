@@ -1,6 +1,11 @@
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
 from django.core.mail import send_mail
-from django.conf import settings
+from .models import BorrowedBook
+from django.utils.timezone import now
+from datetime import timedelta
 
+@receiver(post_migrate)
 def send_email(subject, message, recipient_email):
     """
     Function to send an email to the user.

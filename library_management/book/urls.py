@@ -40,10 +40,10 @@ urlpatterns = [
     path('return/<int:book_id>/', views.return_book, name='return_book'),
 
    #for admin
-   path('borrowed-books-admin/', views.borrowed_books_list, name='borrowed_books_list'),
+    path('borrowed-books-admin/', views.borrowed_books_list, name='borrowed_books_list'),
 
    #email
-   path('send-email/', views.email_user, name='email_user'),
+    path('send-email/', views.email_user, name='email_user'),
 
 ]
 

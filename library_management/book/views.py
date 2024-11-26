@@ -9,8 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .email_utils import send_email
+from django.core.mail import send_mail
 from django.contrib import messages
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 def homepage(request):
@@ -274,14 +276,22 @@ def borrowed_books_list(request):
 
 #email
 def email_user(request):
-    if request.method == 'POST':
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        recipient_email = request.POST.get('recipient_email')
+    if request.user.is_authenticated:  # Check if the user is logged in
+        subject = "Subject of the Email"
+        from_email = settings.DEFAULT_FROM_EMAIL  # The sender's email (configured in settings.py)
+        recipient_list = [request.user.email]  # Automatically use the logged-in user's email address
+        
+        # Render the email content from the template
+        message = render_to_string('book/send_email.html', {
+            'username': request.user.username,  # You can pass more data to the template if needed
+        })
 
-        if send_email(subject, message, recipient_email):
-            messages.success(request, 'Email sent successfully!')
-        else:
-            messages.error(request, 'Failed to send email.')
-
-    return render(request, 'book/send_email.html')
+        try:
+            send_mail(subject, message, from_email, recipient_list, html_message=message)
+            return render(request, 'book/send_email.html', {'message': 'Email sent successfully!'})
+        except Exception as e:
+            return render(request, 'book/send_email.html', {'message': f'Error: {str(e)}'})
+    else:
+        # If the user is not authenticated, handle the case (e.g., redirect to login page)
+        return redirect('login')  # Or render an error page
+    

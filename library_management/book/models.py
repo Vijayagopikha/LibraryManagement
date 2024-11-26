@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User
 from django.db import models
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 from datetime import timedelta
@@ -56,6 +58,15 @@ class BorrowedBook(models.Model):
             kwargs['force_update'] = True  # Avoid a new insert, force update
         # Save the instance again after setting the due_date
         super().save(*args, **kwargs)
+    
+    def send_due_date_reminder(self):
+        # Send an email to the user if the due date is within the next 10 days
+        subject = f"Reminder: {self.book_name} is due soon!"
+        message = f"Dear {self.user.username},\n\nYour borrowed book '{self.book_name}' is due on {self.due_date.strftime('%Y-%m-%d')}. Please return it on time to avoid penalties."
+        recipient_email = self.user.email
+
+        # Use Django's send_mail function to send the email
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient_email])
 
     def __str__(self):
         return f"{self.book_name} borrowed by {self.user.username}"

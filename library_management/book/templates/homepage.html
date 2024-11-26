@@ -10,14 +10,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Management</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+  
     <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-        }
-
+       html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll caused by images or other elements */
+}
         a {
             text-decoration: none;
             color: white;
@@ -55,7 +56,7 @@
 
         /* Hero Section */
         .hero-section {
-            background-image: url('{% static "library-background.png" %}');
+            background-image: url('/media/library-background.png');
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -93,46 +94,57 @@
             margin-top: 20px;
         }
 
-        .buy-btn, .read-btn {
-            background-color: #03145e;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-right: 10px;
-            font-size: 14px;
-        }
+       /* Common Button Styles */
+.buy-btn, .read-btn {
+    background: linear-gradient(45deg, #03145e, #4c5bf9);
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+}
 
-        .read-btn {
-            background-color: transparent;
-            border: 2px solid white;
-        }
+/* Hover Effect */
+.buy-btn:hover, .read-btn:hover {
+    transform: scale(1.1);
+    background: linear-gradient(45deg, #4c5bf9, #03145e);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: #ffcc00; /* Optional: Highlight text on hover */
+}
+
+/* Transparent Button for Sign-Up */
+.read-btn {
+    background: transparent;
+    border: 2px solid white;
+}
+
+/* Hover Effect for Transparent Button */
+.read-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-color: #ffcc00; /* Optional: Change border color on hover */
+}
+
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <header>
-        <div class="navbar">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Technical Books</a></li>
-                <li><a href="#">General Books</a></li>
-            </ul>
-            <div class="currency">
-                <span>Logout</span>
-            </div>
-        </div>
-    </header>
+
 
     <!-- Main Section -->
     <section class="hero-section">
         <div class="content">
             <div class="book-cards">
-                <img src="{% static 'book1.png' %}" alt="Book 1">
-                <img src="{% static 'book2.png' %}" alt="Book 2">
-                <img src="{% static 'book3.png' %}" alt="Book 3">
-                <img src="{% static 'book4.png' %}" alt="Book 4">
+                <img src="/media/book1.png" alt="Book 1">
+                <img src="/media/book2.png" alt="Book 2">
+                <img src="/media/book3.png" alt="Book 3">
+                <img src="/media/book4.png" alt="Book 4">
             </div>
             <h1>SEARCH YOUR FAVOURITE BOOK</h1>
-            <p>Consectetur adipiscing elit eiusmod lotanae pokalate sinote tempor incididunt ut labore popupve asoter.</p>
+            <p>"Welcome to our Library Management System<br>Your one-stop solution for borrowing books, managing collections, and exploring knowledge seamlessly!"</p>
             <div class="buttons">
                 <a href="{% url 'login' %}" class="buy-btn">Log in</a>
                 <a href="{% url 'signup' %}" class="read-btn">Sign up</a>
