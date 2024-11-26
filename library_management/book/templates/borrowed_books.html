@@ -75,35 +75,68 @@
         margin: 10px 0;
     }
 
-    /* Center and Style the Back to Library Button */
-    .btn-back {
-        display: block;
-        width: fit-content;
-        margin: 30px auto; /* Centers the button horizontally */
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        text-align: center;
+        color: #0056b3;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+    a.btn-back {
+        display: inline-block;
+        margin: 20px auto;
         text-align: center;
         color: #fff;
-        background-color: #007bff; /* Blue color */
+        background-color: #007bff;
         padding: 10px 20px;
         border-radius: 5px;
         font-size: 16px;
         text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
-    .btn-back:hover {
-        background-color: #0056b3; /* Darker blue on hover */
+    
+    a.btn-back:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
     }
-
-    .btn-back:active {
-        background-color: #004080; /* Even darker blue when active/clicked */
+    a.btn-back {
+        display: inline-block;
+        margin: 20px auto;
+        text-align: center;
+        color: #fff;
+        background-color: #007bff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+    
+    a.btn-back:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+    
+    .center-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    
+    
 </style>
 
 <h2>Borrowed Books</h2>
 
 <ul>
-    {% for book in ed_books %}
+    {% for book in borrowed_books %}
         <li>
             <strong>Book Name:</strong> {{ book.book_name }}<br>
             <strong>Borrowed On:</strong> {{ book.borrow_date|date:"F j, Y, g:i a" }}<br>
@@ -114,6 +147,8 @@
         <li>No books borrowed.</li>
     {% endfor %}
 </ul>
+<div class="center-btn">
+    <a href="{% url 'home' %}" class="btn-back">Back to Library</a>
+</div>
 
-<a href="{% url 'home' %}" class="btn-back">Back to Library</a>
 {% endblock %}

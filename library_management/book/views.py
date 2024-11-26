@@ -9,6 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .email_utils import send_email
+from django.contrib import messages
+
+
 def homepage(request):
     return render(request, 'homepage.html', {'show_nav': False})
 
@@ -265,4 +269,19 @@ def borrowed_books_list(request):
     context = {
         'borrowed_books': borrowed_books
     }
+
     return render(request, 'borrowed_books_list.html', context)
+
+#email
+def email_user(request):
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        recipient_email = request.POST.get('recipient_email')
+
+        if send_email(subject, message, recipient_email):
+            messages.success(request, 'Email sent successfully!')
+        else:
+            messages.error(request, 'Failed to send email.')
+
+    return render(request, 'book/send_email.html')

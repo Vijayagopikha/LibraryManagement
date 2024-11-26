@@ -42,6 +42,9 @@ urlpatterns = [
    #for admin
    path('borrowed-books-admin/', views.borrowed_books_list, name='borrowed_books_list'),
 
+   #email
+   path('send-email/', views.email_user, name='email_user'),
+
 ]
 
 
