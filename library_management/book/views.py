@@ -172,7 +172,7 @@ def update(request, book_id, book_type):
             book.category = request.POST.get('category', '')
         book.book_available = int(request.POST['num_available'])
         book.image_url = request.POST.get('image_url', '')
-        book.online_url = request.POST.get('online_url', '')  # New field for online book URL
+        book.online_book_url = request.POST.get('online_book_url', '')  # New field for online book URL
         book.save()
         messages.success(request, 'Book updated successfully!')
         return redirect('home')  # Redirect to the books list view
@@ -256,4 +256,13 @@ def return_book(request, book_id):
     # Redirect the user back to the borrowed books list
     return redirect('borrowed_books')
 
-
+#for admin
+def borrowed_books_list(request):
+    """
+    Display all borrowed books along with their associated user's username.
+    """
+    borrowed_books = BorrowedBook.objects.select_related('user').all()  # Use select_related for optimization
+    context = {
+        'borrowed_books': borrowed_books
+    }
+    return render(request, 'borrowed_books_list.html', context)
